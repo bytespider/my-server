@@ -1,0 +1,7 @@
+version: '3.9'
+
+include:
+  - path: 'docker-compose.networks.yml'
+  - path: 'adguard/docker-compose.adguard.yml'
+  - path: 'traefik/docker-compose.traefik.yml'
+  # - path: 'whoami/docker-compose.whoami.yml'

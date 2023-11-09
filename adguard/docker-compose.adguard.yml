@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  adguard:
+    image: 'adguard/adguardhome:${ADGUARD_IMAGE_VERSION:-latest}'
+    labels:
+      traefik.enable: true
+      traefik.http.routers.adguard.rule: 'Host(`adguard.${DOMAIN_NAME:-localhost}`)'
+      traefik.http.services.adguard.loadbalancer.server.port: 3000
+    networks:
+      - 'server'
+    ports:
+      - '${ADGUARD_DNS_ENTRYPOINT:-53}:53'
+      - '${ADGUARD_DHCP_SERVER_ENTRYPOINT:-67}:67/udp'
+      - '${ADGUARD_DHCP_CLIENT_ENTRYPOINT:-68}:68/udp'
+      - '${ADGUARD_DNSTLS_ENTRYPOINT:-853}:853'
+    restart: 'always'
+    volumes:
+      - './data:/opt/adguardhome/work'
+      - './conf:/opt/adguardhome/conf'
+      - './logs:/opt/adguardhome/logs'
